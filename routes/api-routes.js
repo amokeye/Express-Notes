@@ -2,12 +2,12 @@
 const router = require("express").Router();
 
 //
-const store = require("../db/store");
+const fxns = require("../db/note-fxns");
 
 // GET route to get all entered notes from user
 router.get("/notes", function(req, res) {
     // Import store variable
-  store
+  fxns
     .getNotes()
     .then(notes => res.json(notes))
     .catch(err => res.status(404).json(err));
@@ -16,7 +16,7 @@ router.get("/notes", function(req, res) {
 // POST route to post info to database
 router.post("/notes", (req, res) => {
     // Import store variable
-  store
+  fxns
     .addNote(req.body)
     .then((note) => res.json(note))
     .catch(err => res.status(404).json(err));
@@ -25,7 +25,7 @@ router.post("/notes", (req, res) => {
 // DELETE route to delete the notes with specific id
 router.delete("/notes/:id", function(req, res) {
     // Import store variable
-  store
+  fxns
     .removeNote(req.params.id)
     .then(() => res.json({ ok: true }))
     .catch(err => res.status(404).json(err));

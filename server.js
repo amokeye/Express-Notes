@@ -18,8 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(express.static("public"));
-app.use("/api", apiRoutes);
-app.use("/", htmlRoutes);
+app.use("/api", api-routes);
+app.use("/", html-routes);
 
 //
 app.listen(PORT, () => {

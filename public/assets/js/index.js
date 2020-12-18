@@ -4,8 +4,8 @@ var $saveNoteBtn = $(".save-note");
 var $newNoteBtn = $(".new-note");
 var $noteList = $(".list-container .list-group");
 
-// activeNote is used to keep track of the note in the textarea
-var activeNote = {};
+// Variable for note in text area (i.e. active notes)
+var currentNote = {};
 
 // A function for getting all notes from the db
 var getNotes = function() {
@@ -32,15 +32,15 @@ var deleteNote = function(id) {
   });
 };
 
-// If there is an activeNote, display it, otherwise render empty inputs
-var renderActiveNote = function() {
+// If there is a currentNote, display it, otherwise render empty inputs
+var renderCurrentNote = function() {
   $saveNoteBtn.hide();
 
-  if (activeNote.id) {
+  if (currentNote.id) {
     $noteTitle.attr("readonly", true);
     $noteText.attr("readonly", true);
-    $noteTitle.val(activeNote.title);
-    $noteText.val(activeNote.text);
+    $noteTitle.val(currentNote.title);
+    $noteText.val(currentNote.text);
   } else {
     $noteTitle.attr("readonly", false);
     $noteText.attr("readonly", false);
@@ -57,8 +57,8 @@ var handleNoteSave = function() {
   };
 
   saveNote(newNote).then(function(data) {
-    getAndRenderNotes();
-    renderActiveNote();
+    RenderNotes();
+    renderCurrentNote();
   });
 };
 
@@ -71,26 +71,26 @@ var handleNoteDelete = function(event) {
     .parent(".list-group-item")
     .data();
 
-  if (activeNote.id === note.id) {
-    activeNote = {};
+  if (currenteNote.id === note.id) {
+    currentNote = {};
   }
 
   deleteNote(note.id).then(function() {
-    getAndRenderNotes();
-    renderActiveNote();
+    RenderNotes();
+    renderCurrentNote();
   });
 };
 
-// Sets the activeNote and displays it
+// Sets the currentNote and displays it
 var handleNoteView = function() {
-  activeNote = $(this).data();
-  renderActiveNote();
+  currentNote = $(this).data();
+  renderCurrentNote();
 };
 
-// Sets the activeNote to and empty object and allows the user to enter a new note
+// Sets the currentNote to and empty object and allows the user to enter a new note
 var handleNewNoteView = function() {
-  activeNote = {};
-  renderActiveNote();
+  currentNote = {};
+  renderCurrentNote();
 };
 
 // If a note's title or text are empty, hide the save button
@@ -126,7 +126,7 @@ var renderNoteList = function(notes) {
 };
 
 // Gets notes from the db and renders them to the sidebar
-var getAndRenderNotes = function() {
+var RenderNotes = function() {
   return getNotes().then(function(data) {
     renderNoteList(data);
   });
@@ -140,4 +140,4 @@ $noteTitle.on("keyup", handleRenderSaveBtn);
 $noteText.on("keyup", handleRenderSaveBtn);
 
 // Gets and renders the initial list of notes
-getAndRenderNotes();
+RenderNotes();

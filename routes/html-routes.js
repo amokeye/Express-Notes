@@ -1,8 +1,8 @@
 // Package
-var path = require("path");
+const path = require("path");
 
 // Constant to export router calls particular to this script
-var router = require("express").Router();
+const router = require("express").Router();
 
 // GET route to push notes data to notes HTML page
 router.get("/notes", function(req, res) {
