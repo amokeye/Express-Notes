@@ -2,13 +2,13 @@
 const express = require("express");
 const path = require("path");
 
-const noteTitle = [];
-const noteText = [];
+const apiRoutes = require("./routes/api-routes");
+const htmlRoutes = require("./routes/html-routes");
 
-
-// Sets uo Express app
+// PORT for Express app
 const PORT = process.env.PORT || 3003;
 
+// Introduces Express.js into server
 const app = express();
 
 // Sets up the Express app to handle data parsing
@@ -18,10 +18,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(express.static("public"));
-app.use("/api", api-routes);
-app.use("/", html-routes);
+app.use(apiRoutes);
+app.use(htmlRoutes);
 
 //
 app.listen(PORT, () => {
-    console.log(`API server now on port + ${PORT}`);
+    console.log(`API server now listening on port ${PORT}`);
 });
